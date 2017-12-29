@@ -2,9 +2,9 @@ var ToDoList = function(container){
   this.container = container;
   this.init();
   this.addBtn.addEventListener('click', this.addToList.bind(this));
-  this.ulEl.addEventListener('click', this.toggleCheckbox.bind(this));
+  this.ulEl.addEventListener('click', this.toggleCheckbox);
+  this.ulEl.addEventListener('click', this.deleteElement);
 };
-
 
 
 ToDoList.prototype.init = function() {
@@ -24,6 +24,7 @@ ToDoList.prototype.init = function() {
 
 
 ToDoList.prototype.addToList = function(){
+  // if input text empty, error
   if(!this.inputTxt.value){
     alert('Поле не заполнено!');
     return;
@@ -38,7 +39,12 @@ ToDoList.prototype.getNewNode = function(text){
     liEl.innerText = text;
     var input = document.createElement('input');
     input.type = 'checkbox';
+    var divDel = document.createElement('SPAN');
+    divDel.classList.add('delentBtn');
+    divDel.innerHTML = 'x';
+
     liEl.insertBefore(input, liEl.firstChild);
+    liEl.appendChild(divDel);
     
     return liEl;
 }
@@ -46,7 +52,16 @@ ToDoList.prototype.getNewNode = function(text){
 
 ToDoList.prototype.toggleCheckbox = function(e){
   var target = e.target;
-  if (target.type = 'checkbox'){
+  if (target.type == 'checkbox'){
     target.parentElement.classList.toggle('chkelem');
+  }
+}
+
+
+
+ToDoList.prototype.deleteElement = function(e){
+  var target = e.target;
+  if (target.classList.contains('delentBtn')){
+    target.parentElement.hidden= true;
   }
 }
